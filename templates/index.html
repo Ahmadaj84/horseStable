@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Horse Stable</title>
-</head>
-<body>
+{% extends "layout.html" %}
+
+{% block title %}Add Horse{% endblock %}
+
+{% block content %}
     <h1>Horse Stable Dashboard</h1>
 
     <h2>Horses</h2>
@@ -32,5 +31,4 @@
     <a href="{{ url_for('add_rider') }}">Add New Rider</a>
 </p>
 
-</body>
-</html>
+{% endblock %}

@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Rider</title>
-</head>
-<body>
+{% extends "layout.html" %}
+
+{% block title %}Add Horse{% endblock %}
+
+{% block content %}
     <h1>Add Rider</h1>
     <form method="POST">
         <label>Name:</label>
@@ -15,5 +14,4 @@
         <button type="submit">Add Rider</button>
     </form>
     <a href="{{ url_for('home') }}">Back to Home</a>
-</body>
-</html>
+{% endblock %}
