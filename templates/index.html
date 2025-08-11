@@ -26,5 +26,11 @@
         <li>{{ s['date'] }} - Horse ID: {{ s['horse_id'] }} - Rider ID: {{ s['rider_id'] }}</li>
         {% endfor %}
     </ul>
+
+    <p>
+    <a href="{{ url_for('add_horse') }}">Add New Horse</a> | 
+    <a href="{{ url_for('add_rider') }}">Add New Rider</a>
+</p>
+
 </body>
 </html>

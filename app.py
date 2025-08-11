@@ -1,5 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template , request, redirect, url_for
 from models import db, Horse, Rider, Session
+
+
 import os
 
 app = Flask(__name__)
@@ -10,11 +12,35 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
-@app.route('/init-db')
+'''@app.route('/init-db')
 def init_db():
     from models import db
     db.create_all()
-    return "Database tables created."
+    return "Database tables created."'''
+
+@app.route("/add-horse", methods=["GET", "POST"])
+def add_horse():
+    if request.method == "POST":
+        name = request.form.get("name")
+        age = request.form.get("age")
+        if name and age:
+            horse = Horse(name=name, age=int(age))
+            db.session.add(horse)
+            db.session.commit()
+            return redirect(url_for("home"))
+    return render_template("add_horse.html")
+
+@app.route("/add-rider", methods=["GET", "POST"])
+def add_rider():
+    if request.method == "POST":
+        name = request.form.get("name")
+        level = request.form.get("level")
+        if name and level:
+            rider = Rider(name=name, level=level)
+            db.session.add(rider)
+            db.session.commit()
+            return redirect(url_for("home"))
+    return render_template("add_rider.html")
 
 
 @app.route("/")
