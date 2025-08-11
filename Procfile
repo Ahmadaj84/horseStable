@@ -1,1 +1,1 @@
-web: gunicorn horseStable/app:app
+web: gunicorn horseStable.app:app
