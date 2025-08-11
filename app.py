@@ -10,6 +10,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
+@app.route('/init-db')
+def init_db():
+    from models import db
+    db.create_all()
+    return "Database tables created."
+
+
 @app.route("/")
 def home():
     horses = Horse.query.all()
