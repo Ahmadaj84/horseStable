@@ -1,17 +1,18 @@
 {% extends "layout.html" %}
 
-{% block title %}Add Horse{% endblock %}
+{% block title %}Add Rider{% endblock %}
 
 {% block content %}
-    <h1>Add Rider</h1>
-    <form method="POST">
-        <label>Name:</label>
-        <input type="text" name="name" required>
-        <br>
-        <label>Level:</label>
-        <input type="text" name="level" required>
-        <br>
-        <button type="submit">Add Rider</button>
-    </form>
-    <a href="{{ url_for('home') }}">Back to Home</a>
+<h1>Add Rider</h1>
+<form method="POST">
+    <div class="mb-3">
+        <label for="name" class="form-label">Name:</label>
+        <input type="text" id="name" name="name" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label for="level" class="form-label">Level:</label>
+        <input type="text" id="level" name="level" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Add Rider</button>
+</form>
 {% endblock %}

@@ -1,34 +1,29 @@
 {% extends "layout.html" %}
 
-{% block title %}Add Horse{% endblock %}
+{% block title %}Home - Horse Stable{% endblock %}
 
 {% block content %}
-    <h1>Horse Stable Dashboard</h1>
-
-    <h2>Horses</h2>
-    <ul>
-        {% for h in horses %}
-        <li>{{ h['name'] }} - Age: {{ h['age'] }}</li>
-        {% endfor %}
-    </ul>
-
-    <h2>Riders</h2>
-    <ul>
-        {% for r in riders %}
-        <li>{{ r['name'] }} - Level: {{ r['level'] }}</li>
-        {% endfor %}
-    </ul>
-
-    <h2>Sessions</h2>
-    <ul>
-        {% for s in sessions %}
-        <li>{{ s['date'] }} - Horse ID: {{ s['horse_id'] }} - Rider ID: {{ s['rider_id'] }}</li>
-        {% endfor %}
-    </ul>
-
-    <p>
-    <a href="{{ url_for('add_horse') }}">Add New Horse</a> | 
-    <a href="{{ url_for('add_rider') }}">Add New Rider</a>
+<h1>Welcome to the Horse Stable</h1>
+<p>
+    <a href="{{ url_for('add_horse') }}" class="btn btn-success me-2">Add New Horse</a>
+    <a href="{{ url_for('add_rider') }}" class="btn btn-success">Add New Rider</a>
 </p>
 
+<h2>Horses</h2>
+<ul class="list-group mb-4">
+    {% for horse in horses %}
+    <li class="list-group-item">{{ horse.name }} (Age: {{ horse.age }})</li>
+    {% else %}
+    <li class="list-group-item">No horses found.</li>
+    {% endfor %}
+</ul>
+
+<h2>Riders</h2>
+<ul class="list-group">
+    {% for rider in riders %}
+    <li class="list-group-item">{{ rider.name }} (Level: {{ rider.level }})</li>
+    {% else %}
+    <li class="list-group-item">No riders found.</li>
+    {% endfor %}
+</ul>
 {% endblock %}
