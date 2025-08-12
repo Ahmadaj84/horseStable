@@ -48,6 +48,9 @@ def app_login():
 
 @app.route("/")
 def home():
+    if 'user_id' not in session:
+        flash("Please log in to access this page.", "warning")
+        return redirect(url_for('app-login'))
     horses = Horse.query.all()
     riders = Rider.query.all()
     sessions = Session.query.all()
