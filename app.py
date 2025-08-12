@@ -43,7 +43,7 @@ def add_rider():
     return render_template("add_rider.html")
 
 @app.route("/app-login", methods=["GET", "POST"])
-def app-login():
+def app_login():
     return render_template("login.html")
 
 @app.route("/")
