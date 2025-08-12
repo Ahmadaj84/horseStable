@@ -9,6 +9,7 @@ app = Flask(__name__)
 # Get DB connection string from environment variable
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = os.urandom(24)
 
 db.init_app(app)
 
