@@ -42,6 +42,9 @@ def add_rider():
             return redirect(url_for("home"))
     return render_template("add_rider.html")
 
+@app.route("/add-login", methods=["GET", "POST"])
+def add_rider():
+    return render_template("login.html")
 
 @app.route("/")
 def home():
