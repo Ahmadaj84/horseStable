@@ -20,10 +20,3 @@ class Session(db.Model):
     date = db.Column(db.String(20))
     horse_id = db.Column(db.Integer, db.ForeignKey('horses.id'))
     rider_id = db.Column(db.Integer, db.ForeignKey('riders.id'))
-    coach_id = db.Column(db.Integer, db.ForeignKey('coach.id'))
-
-class Coach(db.Model):
-    __tablename__ = 'coach'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20))
-    
