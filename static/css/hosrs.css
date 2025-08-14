@@ -8,8 +8,8 @@ Click the horse for slow-mo :)
   --outlines: transparent;
   --speed: 0.8s;
   --delay-gap: 8;
-  --horse-width: 3.8rem;
-  --horse-height: 2.5rem;
+  --horse-width: 33.8rem;
+  --horse-height: 22.5rem;
   --color-horse: rgba(50, 50, 50, 1);
   --color-horse-back: rgba(30, 30, 30, 1);
   --color-hair: rgba(70, 70, 70, 1);
@@ -17,6 +17,11 @@ Click the horse for slow-mo :)
   --color-dust: #AF540B;
   --color-floor: #F1D1AF;
   --color-sky: #C4C4FF;
+}
+
+#img_house {
+  height: 250px;
+  width: auto;
 }
 
 /* Scope font-size to footer so only animation scales */

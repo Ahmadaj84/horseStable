@@ -63,4 +63,4 @@ def home():
     return render_template("index.html", horses=horses, riders=riders, sessions=sessions)
 
 if __name__ == "__main__":
-    app.run#(debug=True)
+    app.run #(debug=True)
