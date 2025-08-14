@@ -1,5 +1,6 @@
 from flask import Flask, render_template , request, redirect, url_for ,session,flash
-from models import db, Horse, Rider, Session
+from models import db, Horse, Rider, Session , User
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 import os
@@ -7,7 +8,7 @@ import os
 app = Flask(__name__)
 
 # Get DB connection string from environment variable
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://horsestabledb_user:5mqDX3DRyr1d6fOzcXf9seXOQ9Mp2u1i@dpg-d2cha33uibrs738gnpe0-a.oregon-postgres.render.com/horsestabledb' 
+
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.urandom(24)
@@ -46,6 +47,17 @@ def add_rider():
 
 @app.route("/app-login", methods=["GET", "POST"])
 def app_login():
+    if request.method == "POST":
+        email = request.form.get("email")
+        fullName = request.form.get("fullName")
+        Username = request.form.get("Username")
+        hash_pass =  generate_password_hash(request.form.get("Password"), method='pbkdf2:sha256')
+        mobile = request.form.get("mobile")
+        new_user = User(username=Username, password=hash_pass ,email=email,mobile=mobile,fullname=fullName)
+        db.session.add(new_user)
+        db.session.commit()
+        flash("User registered successfully!", "success")
+        return redirect(url_for('home'))
     return render_template("login.html")
 
 @app.route("/testhorse")
@@ -63,4 +75,4 @@ def home():
     return render_template("index.html", horses=horses, riders=riders, sessions=sessions)
 
 if __name__ == "__main__":
-    app.run #(debug=True)
+    app.run (debug=True)
