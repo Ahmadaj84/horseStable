@@ -76,8 +76,6 @@ def rider_detail(rider_id):
 
     return render_template("rider_detail.html", rider=rider, subscriptions=subscriptions)
 
-from flask import request, redirect, url_for, flash
-from models import db, Rider, RiderSub
 
 @app.route("/rider/<int:rider_id>/add_subscription_ajax", methods=["POST"])
 def add_subscription_ajax(rider_id):
@@ -116,4 +114,4 @@ def home():
     return render_template("index.html", horses=horses, riders=riders, sessions=sessions)
 
 if __name__ == "__main__":
-    app.run #(debug=True)
+    app.run (debug=True)
