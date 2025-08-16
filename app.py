@@ -1,6 +1,8 @@
-from flask import Flask, render_template , request, redirect, url_for ,session,flash
-from models import db, Horse, Rider, Session , User
+from flask import Flask, render_template , request, redirect, url_for ,session,flash ,jsonify
+from models import db, Horse, Rider, Session , User ,RiderSub
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
+
 
 
 import os
@@ -15,11 +17,11 @@ app.config['SECRET_KEY'] = os.urandom(24)
 
 db.init_app(app)
 
-'''@app.route('/init-db')
+@app.route('/init-db')
 def init_db():
     from models import db
     db.create_all()
-    return "Database tables created."'''
+    return "Database tables created."
 
 @app.route("/add-horse", methods=["GET", "POST"])
 def add_horse():
@@ -64,6 +66,45 @@ def app_login():
 def testhorse():
     return render_template("testHorse.html")
 
+@app.route("/rider/<int:rider_id>")
+def rider_detail(rider_id):
+    # Get the rider and subscriptions in one go
+    rider = Rider.query.get_or_404(rider_id)
+
+    # subscriptions come from the relationship in the model
+    subscriptions = rider.subscriptions  
+
+    return render_template("rider_detail.html", rider=rider, subscriptions=subscriptions)
+
+from flask import request, redirect, url_for, flash
+from models import db, Rider, RiderSub
+
+@app.route("/rider/<int:rider_id>/add_subscription_ajax", methods=["POST"])
+def add_subscription_ajax(rider_id):
+    try:
+        start_date_str = request.form["start_date"]
+        start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
+        active = "active" in request.form
+
+        new_sub = RiderSub(
+            start_date=start_date,
+            rider_id=rider_id,
+            active=active
+        )
+        db.session.add(new_sub)
+        db.session.commit()
+
+        return jsonify({
+            "success": True,
+            "data": {
+                "start_date": start_date_str,
+                "active": active
+            }
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)})
+
+
 @app.route("/")
 def home():
     """if 'user_id' not in session:
@@ -75,4 +116,4 @@ def home():
     return render_template("index.html", horses=horses, riders=riders, sessions=sessions)
 
 if __name__ == "__main__":
-    app.run (debug=True)
+    app.run #(debug=True)

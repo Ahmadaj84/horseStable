@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -29,4 +30,14 @@ class User(db.Model):
     email = db.Column(db.String(200), nullable=False)
     mobile = db.Column(db.String(150), nullable=False)
     fullname = db.Column(db.String(100), nullable=False)
+
+class RiderSub(db.Model):
+    __tablename__ = 'rider_sub'
+
+    id = db.Column(db.Integer, primary_key=True)
+    start_date = db.Column(db.Date, nullable=False, default=datetime.utcnow)
+    rider_id = db.Column(db.Integer, db.ForeignKey('riders.id'), nullable=False)
+    active = db.Column(db.Boolean, default=True)
+
+    rider = db.relationship('Rider', backref=db.backref('subscriptions', lazy=True))
         

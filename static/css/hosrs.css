@@ -3243,6 +3243,14 @@ footer {
   align-items: center;
 }
 
+.modal {
+  z-index: 9999 !important;
+}
+.modal-backdrop {
+  z-index: 99 !important;
+}
+
+
 /* Keep your content above the footer animation */
 main { position: relative; z-index: 2; }
 

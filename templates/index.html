@@ -21,7 +21,7 @@
 <h2>Riders</h2>
 <ul class="list-group">
     {% for rider in riders %}
-    <li class="list-group-item">{{ rider.name }} (Level: {{ rider.level }})</li>
+    <li class="list-group-item">{{ rider.name }} <a href="{{ url_for('rider_detail',rider_id=rider.id) }}" >(Level: {{ rider.level }})</a></li>
     {% else %}
     <li class="list-group-item">No riders found.</li>
     {% endfor %}
