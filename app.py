@@ -1,5 +1,5 @@
 from flask import Flask, render_template , request, redirect, url_for ,session,flash ,jsonify
-from models import db, Horse, Rider, Session , User ,RiderSub
+from models import db, Horse, Rider , Trining_class ,User ,RiderSub ,Paddock
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
@@ -40,8 +40,10 @@ def add_rider():
     if request.method == "POST":
         name = request.form.get("name")
         level = request.form.get("level")
+        phone = request.form.get("phone")
+        email = request.form.get("email")
         if name and level:
-            rider = Rider(name=name, level=level)
+            rider = Rider(name=name, level=level , mobile=phone, email=email)
             db.session.add(rider)
             db.session.commit()
             return redirect(url_for("home"))
@@ -110,8 +112,8 @@ def home():
         return redirect(url_for('app_login'))"""
     horses = Horse.query.all()
     riders = Rider.query.all()
-    sessions = Session.query.all()
-    return render_template("index.html", horses=horses, riders=riders, sessions=sessions)
+    #sessions = Session.query.all()
+    return render_template("index.html", horses=horses, riders=riders) #, sessions=sessions)
 
 if __name__ == "__main__":
     app.run (debug=True)

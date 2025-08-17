@@ -56,6 +56,26 @@ html, body {
   background: linear-gradient(0deg, #ffa44e 30%, #00d4ff 100%);
 }
 
+.card {
+  background-color: transparent !important;
+}
+ul {
+  background-color: transparent !important;
+}
+li {
+  background-color: transparent !important;
+}
+input {
+  background-color: transparent !important;
+}
+
+table {
+  background-color: transparent !important;
+}
+
+
+
+
 /* removed body flex centering for Bootstrap compat */
 
 label {
