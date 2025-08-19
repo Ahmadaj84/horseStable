@@ -20,7 +20,7 @@ class Rider(db.Model):
 class Trining_class(db.Model):
     __tablename__ = 'training_class'
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.String(20))
+    date = db.Column(db.DateTime)
     horse_id = db.Column(db.Integer, db.ForeignKey('horses.id'))
     rider_id = db.Column(db.Integer, db.ForeignKey('riders.id'))
     paddock_id = db.Column(db.Integer, db.ForeignKey('paddock.id'))

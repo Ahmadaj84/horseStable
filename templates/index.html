@@ -5,8 +5,13 @@
 {% block content %}
 <h1>Welcome to the Horse Stable</h1>
 <p>
+     <!--
     <a href="{{ url_for('add_horse') }}" class="btn btn-success me-2">Add New Horse</a>
     <a href="{{ url_for('add_rider') }}" class="btn btn-success">Add New Rider</a>
+    Button to Open Modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTrainingModal">
+  Add Training Class
+</button>
 </p>
 
 <h2>Horses</h2>
@@ -27,3 +32,67 @@
     {% endfor %}
 </ul>
 {% endblock %}
+
+{% block modal %}
+<!-- Modal -->
+<div class="modal fade" id="addTrainingModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <form method="POST" action="{{ url_for('home') }}">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Training Class</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="mb-3">
+            <label>Date</label>
+            <input type="date" class="form-control" name="date">
+            </div>
+
+            <div class="mb-3">
+            <label>Time</label>
+            <input type="time" class="form-control" name="time">
+            </div>
+
+          <div class="mb-3">
+            <label>Horse</label>
+            <select name="horse_id" class="form-select">
+              {% for horse in horses %}
+                <option value="{{ horse.id }}">{{ horse.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label>Rider</label>
+            <select name="rider_id" class="form-select">
+              {% for rider in riders %}
+                <option value="{{ rider.id }}">{{ rider.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label>Paddock</label>
+            <select name="paddock_id" class="form-select">
+              {% for pad in paddocks %}
+                <option value="{{ pad.id }}">{{ pad.paddock_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Save</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+

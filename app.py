@@ -105,15 +105,32 @@ def add_subscription_ajax(rider_id):
         return jsonify({"success": False, "error": str(e)})
 
 
-@app.route("/")
+@app.route("/" , methods=["GET", "POST"] )
 def home():
     """if 'user_id' not in session:
         flash("Please log in to access this page.", "warning")
         return redirect(url_for('app_login'))"""
+    if request.method == "POST":
+        date_str = request.form["date"]
+        time_str = request.form["time"]
+        datetime_str = f"{date_str} {time_str}"
+        new_class = Trining_class(
+            date=datetime.strptime(datetime_str, "%Y-%m-%d %H:%M"),
+            horse_id=request.form["horse_id"],
+            rider_id=request.form["rider_id"],
+            paddock_id=request.form["paddock_id"]
+        )
+        db.session.add(new_class)
+        db.session.commit()
+        return redirect(url_for("home"))  # Redirect after insert
+
+
+
     horses = Horse.query.all()
     riders = Rider.query.all()
+    paddocks = Paddock.query.all()
     #sessions = Session.query.all()
-    return render_template("index.html", horses=horses, riders=riders) #, sessions=sessions)
+    return render_template("index.html", horses=horses, riders=riders , paddocks=paddocks) #, sessions=sessions)
 
 if __name__ == "__main__":
-    app.run (debug=True)
+    app.run #(debug=True)
