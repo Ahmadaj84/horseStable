@@ -52,17 +52,29 @@ def add_rider():
 @app.route("/app-login", methods=["GET", "POST"])
 def app_login():
     if request.method == "POST":
-        email = request.form.get("email")
-        fullName = request.form.get("fullName")
-        Username = request.form.get("Username")
-        hash_pass =  generate_password_hash(request.form.get("Password"), method='pbkdf2:sha256')
-        mobile = request.form.get("mobile")
-        new_user = User(username=Username, password=hash_pass ,email=email,mobile=mobile,fullname=fullName)
-        db.session.add(new_user)
-        db.session.commit()
-        flash("User registered successfully!", "success")
-        return redirect(url_for('home'))
+        if request.form.get("do") == "do":
+            email = request.form.get("email")
+            fullName = request.form.get("fullName")
+            Username = request.form.get("Username")
+            hash_pass =  generate_password_hash(request.form.get("Password"), method='pbkdf2:sha256')
+            mobile = request.form.get("mobile")
+            new_user = User(username=Username, password=hash_pass ,email=email,mobile=mobile,fullname=fullName)
+            db.session.add(new_user)
+            db.session.commit()
+            flash("User registered successfully!", "success")
+            return redirect(url_for('home'))
+        else:
+            user = User.query.filter_by(username=request.form['Username']).first()
+            if user and check_password_hash(user.password, request.form['Password']):
+                session['user_id'] = user.id
+                session['username'] = user.username
+                flash("Login successful!", "success")
+                return redirect(url_for('home'))
+            else:
+                flash("Invalid username or password", "danger")
+
     return render_template("login.html")
+
 
 @app.route("/testhorse")
 def testhorse():
@@ -107,30 +119,29 @@ def add_subscription_ajax(rider_id):
 
 @app.route("/" , methods=["GET", "POST"] )
 def home():
-    """if 'user_id' not in session:
+    if 'user_id' not in session:
         flash("Please log in to access this page.", "warning")
-        return redirect(url_for('app_login'))"""
-    if request.method == "POST":
-        date_str = request.form["date"]
-        time_str = request.form["time"]
-        datetime_str = f"{date_str} {time_str}"
-        new_class = Trining_class(
-            date=datetime.strptime(datetime_str, "%Y-%m-%d %H:%M"),
-            horse_id=request.form["horse_id"],
-            rider_id=request.form["rider_id"],
-            paddock_id=request.form["paddock_id"]
-        )
-        db.session.add(new_class)
-        db.session.commit()
-        return redirect(url_for("home"))  # Redirect after insert
-
-
-
-    horses = Horse.query.all()
-    riders = Rider.query.all()
-    paddocks = Paddock.query.all()
-    #sessions = Session.query.all()
-    return render_template("index.html", horses=horses, riders=riders , paddocks=paddocks) #, sessions=sessions)
+        return redirect(url_for('app_login'))
+    else:
+        if request.method == "POST":
+            date_str = request.form["date"]
+            time_str = request.form["time"]
+            datetime_str = f"{date_str} {time_str}"
+            new_class = Trining_class(
+                date=datetime.strptime(datetime_str, "%Y-%m-%d %H:%M"),
+                horse_id=request.form["horse_id"],
+                rider_id=request.form["rider_id"],
+                paddock_id=request.form["paddock_id"]
+            )
+            db.session.add(new_class)
+            db.session.commit()
+            return redirect(url_for("home"))  # Redirect after insert
+            
+        horses = Horse.query.all()
+        riders = Rider.query.all()
+        paddocks = Paddock.query.all()
+        #sessions = Session.query.all()
+        return render_template("index.html", horses=horses, riders=riders , paddocks=paddocks) #, sessions=sessions)
 
 if __name__ == "__main__":
-    app.run #(debug=True)
+    app.run (debug=True)
