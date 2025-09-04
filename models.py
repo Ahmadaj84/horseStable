@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import event
 from datetime import datetime
 
 db = SQLAlchemy()
@@ -16,6 +17,8 @@ class Rider(db.Model):
     level = db.Column(db.String(50))
     email = db.Column(db.String(200), nullable=False)
     mobile = db.Column(db.String(150), nullable=False)
+    user_id = db.Column(db.Integer , db.ForeignKey('user.id'))
+    user = db.relationship('User', backref=db.backref('class_user' , lazy=True) )
 
 class Trining_class(db.Model):
     __tablename__ = 'training_class'
@@ -37,6 +40,13 @@ class User(db.Model):
     email = db.Column(db.String(200), nullable=False)
     mobile = db.Column(db.String(150), nullable=False)
     fullname = db.Column(db.String(100), nullable=False)
+    role = db.Column(db.String(30), nullable=False)
+
+@event.listens_for(User, "after_insert")
+def create_ryder(mapper, connection, target):
+    session = db.session.object_session(target)
+    rider = Rider(user_id=target.id,name=target.fullname , level="مبتدئ" , email=target.email,mobile=target.mobile)
+    session.add(rider)
 
 class RiderSub(db.Model):
     __tablename__ = 'rider_sub'
